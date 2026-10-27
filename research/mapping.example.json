@@ -1,0 +1,12 @@
+{
+  "ticker": "ticker",
+  "timestamp": "timestamp",
+  "settlement_time": "settlement_time",
+  "probability": "probability",
+  "outcome": "outcome",
+  "side": "side",
+  "ttx_minutes": "ttx_minutes",
+  "atr": "atr",
+  "normalized_distance": "normalized_distance",
+  "momentum": "momentum"
+}

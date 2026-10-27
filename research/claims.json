@@ -1,0 +1,8 @@
+[
+ {"dataset":"KXBTC15M archive","metric":"Archived markets","value":"20,522","status":"Unverified","evidence":"User brief only; archive not supplied"},
+ {"dataset":"Market analytics","metric":"Resolved tickers","value":"2,139","status":"Unverified","evidence":"User brief only; dataset not supplied"},
+ {"dataset":"Market analytics","metric":"Research / test markets","value":"1,497 / 642","status":"Unverified","evidence":"User brief only; split manifest not supplied"},
+ {"dataset":"Later KLEM evaluation","metric":"Evaluated trades","value":"756","status":"Unverified","evidence":"User brief only; trade ledger not supplied"},
+ {"dataset":"Later KLEM evaluation","metric":"Win rate / profit factor / ROI","value":"94.18% / 1.15 / 0.83%","status":"Unverified","evidence":"User brief only; trade ledger and cost basis not supplied"},
+ {"dataset":"Historical validation run","metric":"Events / possible markets / fetched / observations","value":"176 / 12,825 / 2,595 / 119,624","status":"Unverified","evidence":"User brief only; reference-comparison report not supplied"}
+]

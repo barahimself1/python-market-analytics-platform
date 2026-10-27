@@ -1,0 +1,13 @@
+const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
+const A=require('../web/analytics.js');
+const near=(a,b)=>assert.ok(Math.abs(a-b)<1e-10,`${a} differs from ${b}`);
+const r={probability:.8,outcome:1,side:'YES',period:'research'};
+test('selected-side semantics',()=>{near(A.trade({...r,side:'NO'})[0],.2);assert.equal(A.trade({...r,side:'NO'})[1],0);});
+test('empty samples remain null',()=>assert.equal(A.summary([]).mean_return,null));
+test('costs and fills',()=>near(A.execution([r],1,2,.5).net,.085));
+test('CSV formula injection neutralized',()=>assert.equal(A.csvCell('=SUM(A1)'),`"'=SUM(A1)"`));
+test('CSV embedded quotes escaped',()=>assert.equal(A.csvCell('a"b'),'"a""b"'));
+test('outcome leakage rejected as feature',()=>assert.throws(()=>A.bucket(r,'outcome')));
+test('small sample never promoted',()=>assert.equal(A.groups([r],'probability').find(g=>g.rows.length).status,'Needs more data'));
+test('streak counts completed and trailing runs',()=>assert.deepEqual(A.lossStreaks([0,0,1,0].map((o,i)=>({...r,outcome:o,timestamp:String(i)}))),[{length:1,count:1},{length:2,count:1}]));
+test('browser metrics match Python compiled metrics',()=>{const context={window:{}};vm.runInNewContext(fs.readFileSync('dist/dataset.js','utf8'),context);const d=context.window.MARKETLAB_DATA,s=A.summary(d.rows);for(const k of ['n','win_rate','mean_return','median_return','brier'])near(s[k],d.summary[k]);for(const p of ['research','test']){const b=A.calibration(d.rows.filter(r=>r.period===p));b.forEach((v,i)=>{near(v.expected,d.calibration[p][i].expected);near(v.observed,d.calibration[p][i].observed);near(v.ci[0],d.calibration[p][i].ci[0]);});}});
